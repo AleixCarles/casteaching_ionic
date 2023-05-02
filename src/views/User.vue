@@ -18,7 +18,7 @@
 
             <div>
                 <h1>User</h1>
-                name: {{this.user.name}}
+                name: {{this.user && this.user.name}}
             </div>
         </ion-content>
     </ion-page>
@@ -47,8 +47,13 @@ export default {
     },
     data() {
         return {
-            user: store.user
+            user: {}
         }
+    },
+    async mounted (){
+        console.log('mounted');
+        console.log(store.get('user'));
+        this.user = await store.get('user')
     }
 }
 </script>
