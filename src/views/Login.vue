@@ -96,7 +96,7 @@ export default {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    // Authorization: 'Bearer szvy8FoFP7zbjcW7Qi3f7EsI7KgUtwULiggYKIzy'
+                    Authorization: 'Bearer rn35XEX5dZmZU04MGZ2V0YXiCW2OZzfd5GykUTm9'
                 }
             })
             const postData = {
