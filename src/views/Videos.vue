@@ -17,7 +17,7 @@
                             <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </h3>
                         <p>
-                            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </p>
                     </ion-label>
                 </ion-item>
@@ -30,7 +30,7 @@
                             <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </h3>
                         <p>
-                            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </p>
                     </ion-label>
                 </ion-item>
@@ -43,7 +43,7 @@
                             <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </h3>
                         <p>
-                            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </p>
                     </ion-label>
                 </ion-item>
@@ -56,7 +56,7 @@
                             <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </h3>
                         <p>
-                            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </p>
                     </ion-label>
                 </ion-item>
@@ -69,7 +69,7 @@
                             <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </h3>
                         <p>
-                            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </p>
                     </ion-label>
                 </ion-item>
@@ -82,45 +82,15 @@
                             <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
                         </h3>
                         <p>
-                            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                        </p>
-                    </ion-label>
-                </ion-item>
-                <ion-item>
-                    <ion-avatar slot="start">
-                        <ion-skeleton-text></ion-skeleton-text>
-                    </ion-avatar>
-                    <ion-label>
-                        <h3>
                             <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                        </h3>
-                        <p>
-                            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
                         </p>
                     </ion-label>
                 </ion-item>
-                <ion-item>
-                    <ion-avatar slot="start">
-                        <ion-skeleton-text></ion-skeleton-text>
-                    </ion-avatar>
-                    <ion-label>
-                        <h3>
-                            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-                        </h3>
-                        <p>
-                            <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                        </p>
-                    </ion-label>
-                </ion-item>
-
             </ion-list>
             <ion-list v-else>
-                <ion-list-header>
-                    Recent Conversations
-                </ion-list-header>
-                <ion-item v-for="video in videos" :key="video.message">
+                <ion-item v-for="video in videos" :key="video.id">
                     <ion-avatar slot="start">
-                        <img src="https://via.placeholder.com/80">
+                        <ion-skeleton-text></ion-skeleton-text>
                     </ion-avatar>
                     <ion-label>
                         <h2>{{ video.title }}</h2>
@@ -134,12 +104,17 @@
 
 <script>
 import {
-    IonList, IonItem, IonListHeader, IonAvatar, IonLabel, IonRefresher,
-    IonRefresherContent, IonContent, IonPage,IonSkeletonText
+    IonAvatar,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonListHeader, IonPage,
+    IonRefresher,
+    IonRefresherContent,
+    IonSkeletonText
 } from "@ionic/vue";
-import casteaching from "@acacha/casteaching";
 
-const api = casteaching({baseUrl: 'http://casteaching.test/api'})
 export default {
     name: "Videos",
     components: {
@@ -151,8 +126,8 @@ export default {
         IonRefresher,
         IonRefresherContent,
         IonContent,
+        IonSkeletonText,
         IonPage,
-        IonSkeletonText
     },
     data() {
         return {
@@ -173,7 +148,11 @@ export default {
             this.refresher.complete()
         },
         async fetchVideos() {
-            this.videos = await api.videos()
+            try {
+                this.videos = await this.casteaching.videos()
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 }

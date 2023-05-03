@@ -53,9 +53,7 @@ import {
     IonTitle,
     IonToolbar
 } from '@ionic/vue';
-import casteaching from "@acacha/casteaching";
-const api = casteaching({baseUrl:'http://casteaching.test/api'})
-// const api = casteaching({baseUrl:'http://casteaching.aleixcarles.me/api'})
+
 export default {
     name: 'Video',
     components: {
@@ -78,24 +76,18 @@ export default {
         }
     },
     async created() {
-        this.video = await api.video.show(this.$route.params.id)
-        // this.video = {
-        //   "id": 2,
-        //   "title": "Video 1",
-        //   "description": "Descripcio video 1",
-        //   "url": "https://www.youtube.com/embed/a4ez0CcEHV4",
-        //   "published_at": null,
-        //   "previous": null,
-        //   "next": null,
-        //   "series_id": null,
-        //   "created_at": "2023-03-02T15:01:38.000000Z",
-        //   "updated_at": "2023-03-02T15:01:38.000000Z"
-        // }
+        try {
+            this.video = await this.casteaching.video.show(this.$route.params.id)
+        }catch (error){
+            console.log(error)
+        }
+
     }
 }
 </script>
 
 <style scoped>
+
 #video {
     width: 100%;
     height: 70vh;

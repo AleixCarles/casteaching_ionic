@@ -4,8 +4,8 @@
             <ion-menu content-id="main-content" type="overlay">
                 <ion-content>
                     <ion-list id="inbox-list">
-                        <ion-list-header>Inbox</ion-list-header>
-                        <ion-note>hi@ionicframework.com</ion-note>
+                        <ion-list-header>Casteaching</ion-list-header>
+                        <ion-note>casteaching.aleixcarles.me</ion-note>
 
                         <ion-menu-toggle auto-hide="false" v-for="(p, i) in appPages" :key="i">
                             <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
@@ -34,7 +34,23 @@
 import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import {
+    archiveOutline,
+    archiveSharp,
+    bookmarkOutline,
+    bookmarkSharp, earth, earthSharp,
+    heartOutline,
+    heartSharp, list, listSharp,
+    mailOutline,
+    mailSharp,
+    paperPlaneOutline,
+    paperPlaneSharp,
+    person, personAdd, personAddSharp, personRemove, personRemoveSharp, personSharp, play, playSharp,
+    trashOutline,
+    trashSharp,
+    warningOutline,
+    warningSharp
+} from 'ionicons/icons';
 import store from "./store";
 
 export default defineComponent({
@@ -55,7 +71,8 @@ export default defineComponent({
     },
     data() {
         return {
-            appPages: []
+            appPages: [],
+            selectedIndex : null
         }
     },
     created() {
@@ -70,14 +87,12 @@ export default defineComponent({
         this.setAppPages()
     },
     setup() {
-        const selectedIndex = ref(0);
 
         const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
         const route = useRoute();
 
         return {
-            selectedIndex,
             labels,
             archiveOutline,
             archiveSharp,
@@ -98,51 +113,57 @@ export default defineComponent({
     },
     methods: {
         async setAppPages() {
+            this.selectedIndex = ref(0);
             this.appPages = []
             const user = await store.get('user')
             if (user) {
                 this.appPages.push({
                     title: 'Dashboard',
                     url: '/dashboard',
-                    iosIcon: mailOutline,
-                    mdIcon: mailSharp
+                    iosIcon: earth,
+                    mdIcon: earthSharp
                 })
                 this.appPages.push(
                     {
                         title: 'User Profile',
                         url: '/user',
-                        iosIcon: mailOutline,
-                        mdIcon: mailSharp
+                        iosIcon: person,
+                        mdIcon: personSharp
                     })
             }
             if (!user) {
                 this.appPages.push({
                     title: 'Login',
                     url: '/login',
-                    iosIcon: mailOutline,
-                    mdIcon: mailSharp
+                    iosIcon: personAdd,
+                    mdIcon: personAddSharp
                 })
             } else {
                 this.appPages.push({
                     title: 'Logout',
                     url: '/logout',
-                    iosIcon: mailOutline,
-                    mdIcon: mailSharp
+                    iosIcon: personRemove,
+                    mdIcon: personRemoveSharp
                 })
             }
 
             this.appPages.push({
                 title: 'Video 1',
                 url: '/videos/1',
-                iosIcon: mailOutline,
-                mdIcon: mailSharp
+                iosIcon: play,
+                mdIcon: playSharp
             })
             this.appPages.push({
                 title: 'Videos',
                 url: '/videos',
-                iosIcon: paperPlaneOutline,
-                mdIcon: paperPlaneSharp
+                iosIcon: list,
+                mdIcon: listSharp
             })
+            const path = window.location.pathname;
+            console.log(path);
+            if (path !== undefined) {
+                this.selectedIndex = this.appPages.findIndex(page => page.url.toLowerCase() === path.toLowerCase());
+            }
         }
     }
 });
